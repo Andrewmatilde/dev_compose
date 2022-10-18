@@ -1,9 +1,0 @@
----
-sourceLocationPrefix: "/root/chaos-mesh/build"
-baselineLinesOfCode: 272
-unicodeNewlines: false
-columnKind: "utf32"
-primaryLanguage: "python"
-creationMetadata:
-  cliVersion: "2.11.1"
-  creationTime: "2022-10-18T12:51:22.833723523Z"
