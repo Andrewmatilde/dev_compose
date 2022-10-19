@@ -7,18 +7,26 @@
  */
 
 import python
-
+import semmle.python.dataflow.new.DataFlow
+import semmle.python.ApiGraphs
 
 predicate isRootFile(File f) {
-    f.getAbsolutePath().indexOf("/root/") = 0
+    f.getAbsolutePath().indexOf("/root/chaos-mesh/build/") = 0
 }
 
-predicate isAttribute(Call call) {
-    call.getFunc() instanceof Attribute 
+class ToOsGetEnv extends DataFlow::Configuration {
+    ToOsGetEnv() { this = "ToOsGetEnv" }
+    
+    override predicate isSource(DataFlow::Node source) {
+        isRootFile(source.getLocation().getFile()) and
+        source = API::moduleImport("os").getMember("getenv").getACall()
+    }
+    
+    override predicate isSink(DataFlow::Node sink) {
+        isRootFile(sink.getLocation().getFile())
+    }
 }
 
-
-from Call call
-where isRootFile(call.getLocation().getFile())
-and isAttribute(call)
-select call.getFunc().getASubExpression().getLocation(), call.getFunc().getASubExpression(), call.getFunc().(Attribute).getName()
+from DataFlow::Node node, DataFlow::Node osGetEnv, ToOsGetEnv config
+where config.hasFlow(node, osGetEnv) and node != osGetEnv
+select node, osGetEnv

@@ -7,6 +7,8 @@
  */
 
 import python
+import semmle.python.dataflow.new.DataFlow
+import semmle.python.ApiGraphs
 
 predicate isRootFile(File f) {
     f.getAbsolutePath().indexOf("/root/") = 0
@@ -14,6 +16,6 @@ predicate isRootFile(File f) {
 
 
 
-from Function func
-where isRootFile(func.getLocation().getFile())
-select func.getLocation()
+from DataFlow::Node node
+where isRootFile(node.getLocation().getFile())
+select node
