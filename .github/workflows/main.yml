@@ -6,7 +6,7 @@ on:
 jobs:
   playground:
     name: container-ci
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       play_env: env
     steps:
