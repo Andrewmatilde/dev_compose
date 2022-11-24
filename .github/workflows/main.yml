@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+      master
+
+jobs:
+  playground:
+    name: container-ci
+    runs-on: self-hosted
+    env:
+      play_env: env
+    steps:
+      - uses: actions/checkout@v2
+      - name: run
+        run: |
+          echo '${{env.play_env}}'
