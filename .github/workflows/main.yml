@@ -13,4 +13,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: run
         run: |
-          echo '${{env.play_env}}'
+          echo "${{env.play_env}}"
